@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 import uvicorn
-from routers import properties
+from routers import properties, cars
 
 app = FastAPI(title="Super Client",)
 
 # models.Base.metadata.create_all(bind=engine)
 
 app.include_router(properties.router)
+app.include_router(cars.router)
 
 # def get_db():
 #     db = SessionLocal()
