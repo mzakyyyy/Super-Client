@@ -2,22 +2,8 @@ from fastapi import APIRouter, Depends, status, Response, HTTPException
 import requests
 import json
 from enum import Enum
-
-def get_bearer_token():
-    url = 'https://property-kpr.azurewebsites.net/login'
-    data = {"username": "zaky@mail.com", "password": "password"}
-    response = requests.post(url, data=data)
-    jsonresponse = response.json()
-    bearertoken = str(jsonresponse['access_token'])
-    return bearertoken
-
-
-def format_get(url: str):
-    link = url
-    headers = {"Authorization": f'Bearer {get_bearer_token()}'}
-    response = requests.get(link, headers=headers)
-    jsonresponse = response.json()
-    return jsonresponse
+from models.carInputModels import Transmisi
+from controller.auth import format_get
 
 def showall():
     url = 'https://tst-price-prediction.azurewebsites.net/cars'
@@ -35,7 +21,7 @@ def cars_perusahaan(nama_perusahaan: str):
     url = f'https://tst-price-prediction.azurewebsites.net/cars/search-perusahaan/{nama_perusahaan}'
     return format_get(url)
 
-def cars_transmisi(transmisi: str):
+def cars_transmisi(transmisi: Transmisi):
     url = f'https://tst-price-prediction.azurewebsites.net/cars/search-transmisi/{transmisi}'
     return format_get(url)
 

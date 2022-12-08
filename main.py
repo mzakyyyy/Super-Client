@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import uvicorn
-from routers import properties, cars
+from routers import properties, cars, calculation
 
 app = FastAPI(title="Super Client",)
 
@@ -8,6 +8,7 @@ app = FastAPI(title="Super Client",)
 
 app.include_router(properties.router)
 app.include_router(cars.router)
+app.include_router(calculation.router)
 
 # def get_db():
 #     db = SessionLocal()
@@ -17,4 +18,4 @@ app.include_router(cars.router)
 #         db.close()
 
 if __name__ == '__main__':
-    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8092, reload=True)

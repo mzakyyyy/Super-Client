@@ -2,30 +2,8 @@ from fastapi import APIRouter, Depends, status, Response, HTTPException
 import requests
 import json
 from enum import Enum
-
-
-class BankName(str, Enum):
-    bca = "BCA"
-    mandiri = "Mandiri"
-    btn = "BTN"
-
-
-def get_bearer_token():
-    url = 'https://property-kpr.azurewebsites.net/login'
-    data = {"username": "zaky@mail.com", "password": "password"}
-    response = requests.post(url, data=data)
-    jsonresponse = response.json()
-    bearertoken = str(jsonresponse['access_token'])
-    return bearertoken
-
-
-def format_get(url: str):
-    link = url
-    headers = {"Authorization": f'Bearer {get_bearer_token()}'}
-    response = requests.get(link, headers=headers)
-    jsonresponse = response.json()
-    return jsonresponse
-
+from models.bankModels import Bank_Properties
+from controller.auth import format_get
 
 def showall():
     url = 'https://property-kpr.azurewebsites.net/property/all'
@@ -52,12 +30,12 @@ def kpr_calc(harga: int, jangka_waktu: int, suku_bunga_fixed: float, masa_kredit
     return format_get(url)
 
 
-def prop_bank_calc(id: int, bank: BankName, jangka_waktu: int, suku_bunga_floating: float):
+def prop_bank_calc(id: int, bank: Bank_Properties, jangka_waktu: int, suku_bunga_floating: float):
     url = f'https://property-kpr.azurewebsites.net/kpr/property/{id}/bank/{bank}?jangka_waktu={jangka_waktu}&suku_bunga_floating={suku_bunga_floating}'
     return format_get(url)
 
 
-def bank_calc(harga: int, bank: BankName, jangka_waktu: int, suku_bunga_floating: float):
+def bank_calc(harga: int, bank: Bank_Properties, jangka_waktu: int, suku_bunga_floating: float):
     url = f'https://property-kpr.azurewebsites.net/kpr/bank/{bank}?harga={harga}&jangka_waktu={jangka_waktu}&suku_bunga_floating={suku_bunga_floating}'
     return format_get(url)
 

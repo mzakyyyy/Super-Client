@@ -3,6 +3,7 @@ import requests
 import json
 from controller.cars import *
 from enum import Enum
+from models.carInputModels import Transmisi
 
 router = APIRouter(tags=["Cars"])
 
@@ -19,15 +20,13 @@ def get_cars_by_name(nama_mobil: str):
 def get_cars_by_tahun(tahun: int):
     return cars_tahun(tahun)
 
-
 @router.get('/cars/search-perusahaan/{nama_perusahaan}')
 def get_cars_by_perusahaan(nama_perusahaan: str):
     return cars_perusahaan(nama_perusahaan)
 
-
 # Need to fix enum
 @router.get('/cars/search-trasmisi/{transmisi}')
-def get_cars_by_transmisi(transmisi: str):
+def get_cars_by_transmisi(transmisi: Transmisi):
     return cars_transmisi(transmisi)
 
 @router.get('/cars/search-harga')
