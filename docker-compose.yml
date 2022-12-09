@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  superclient:
+    image: superclient
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8092:8092
